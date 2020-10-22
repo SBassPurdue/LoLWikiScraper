@@ -24,12 +24,20 @@ row = table.tr
 while row is not None:
     link = row.a['href']
     champ_name = link[6:]
-    print("Parsing " + champ_name)
-
     link = "https://leagueoflegends.fandom.com" + link + "/LoL/Audio"
-    driver.get(link)
-    content = driver.page_source
-    quotesoup = BeautifulSoup(content, features="html.parser") #new soup to parse each champ's page
+    failed_parses = 0
+    successful_parse = False
+    while not successful_parse and failed_parses < 5:
+        try:
+            print("Fetching " + champ_name)
+            driver.get(link)
+            content = driver.page_source
+            print("Parsing " + champ_name)
+            quotesoup = BeautifulSoup(content, features="html.parser") #new soup to parse each champ's page
+            successful_parse = True
+        except Exception:
+            print("Timed out, trying again...")
+            failed_parses = failed_parses + 1
     quotes_raw = quotesoup.findAll('i')
     quotes = []
 

@@ -11,14 +11,12 @@ driver = webdriver.Firefox(options=options)
 
 print("Fetching list of champions...")
 driver.get("https://leagueoflegends.fandom.com/wiki/List_of_champions")
-#driver.get("file:///home/surrept/Desktop/league.html")
 content = driver.page_source
 
 print("Parsing list of champions...")
 soup = BeautifulSoup(content, features="html.parser")
 
 table = soup.find('table', attrs={'class':'wikitable sortable jquery-tablesorter'})
-#table = soup.find('table', attrs={'class':'wikitable sortable'})
 table = table.tbody
 
 quotes_dict = {}

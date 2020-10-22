@@ -26,6 +26,8 @@ row = table.tr
 while row is not None:
     link = row.a['href']
     champ_name = link[6:]
+    if link == "/wiki/Nunu_%26_Willump":
+        link = "/wiki/Nunu" #wiki redirects /Nunu_&_Willump to /Nunu, no such link to audio page
     link = "https://leagueoflegends.fandom.com" + link + "/LoL/Audio"
     failed_parses = 0
     successful_parse = False

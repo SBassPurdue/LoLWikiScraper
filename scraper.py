@@ -6,18 +6,20 @@ import pandas as pd
 
 options = Options()
 options.headless = True
-print("Initializing webdriver...")
+print("Initializing webdriver", end="... ")
 driver = webdriver.Firefox(options=options)
+print("Done.") #Finished initializing webdriver
 
-print("Fetching list of champions...")
+print("Fetching list of champions", end="... ")
 driver.get("https://leagueoflegends.fandom.com/wiki/List_of_champions")
 content = driver.page_source
+print("Done.") #Finished fetching list of champions
 
 print("Parsing list of champions...")
 soup = BeautifulSoup(content, features="html.parser")
-
 table = soup.find('table', attrs={'class':'wikitable sortable jquery-tablesorter'})
 table = table.tbody
+print("Done.") #Finished parsing list of champions
 
 quotes_dict = {}
 row = table.tr
@@ -32,9 +34,10 @@ while row is not None:
             print("Fetching " + champ_name, end="... ")
             driver.get(link)
             content = driver.page_source
-            print("Parsing " + champ_name)
+            print("Parsing " + champ_name, end="... ")
             quotesoup = BeautifulSoup(content, features="html.parser") #new soup to parse each champ's page
             successful_parse = True
+            print("Done") #Finished fetching and parsing champion's quotes
         except Exception:
             print("Timed out, trying again...")
             failed_parses = failed_parses + 1
@@ -50,6 +53,7 @@ while row is not None:
     row = table.tr
 
 driver.quit()
-print("Exporting to csv")
+print("Exporting to csv...")
 frame = pd.DataFrame.from_dict(quotes_dict, orient='index')
 frame.to_csv('quotes.csv', encoding='utf-8')
+print("Results stored in quotes.csv")

@@ -6,16 +6,16 @@ import pandas as pd
 
 options = Options()
 options.headless = True
-print("Initializing webdriver", end="... ")
+print("Initializing webdriver", end="... ", flush=True)
 driver = webdriver.Firefox(options=options)
 print("Done.") #Finished initializing webdriver
 
-print("Fetching list of champions", end="... ")
+print("Fetching list of champions", end="... ", flush=True)
 driver.get("https://leagueoflegends.fandom.com/wiki/List_of_champions")
 content = driver.page_source
 print("Done.") #Finished fetching list of champions
 
-print("Parsing list of champions...")
+print("Parsing list of champions", end="... ", flush=True)
 soup = BeautifulSoup(content, features="html.parser")
 table = soup.find('table', attrs={'class':'wikitable sortable jquery-tablesorter'})
 table = table.tbody
@@ -31,10 +31,10 @@ while row is not None:
     successful_parse = False
     while not successful_parse and failed_parses < 5:
         try:
-            print("Fetching " + champ_name, end="... ")
+            print("Fetching " + champ_name, end="... ", flush=True)
             driver.get(link)
             content = driver.page_source
-            print("Parsing " + champ_name, end="... ")
+            print("Parsing " + champ_name, end="... ", flush=True)
             quotesoup = BeautifulSoup(content, features="html.parser") #new soup to parse each champ's page
             successful_parse = True
             print("Done") #Finished fetching and parsing champion's quotes

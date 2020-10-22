@@ -43,4 +43,4 @@ while row is not None:
 
 print("Exporting to csv")
 frame = pd.DataFrame.from_dict(quotes_dict, orient='index')
-frame.to_csv('quotes.csv', index=False, encoding='utf-8')
+frame.to_csv('quotes.csv', encoding='utf-8')

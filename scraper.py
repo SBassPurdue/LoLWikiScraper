@@ -29,7 +29,7 @@ while row is not None:
     successful_parse = False
     while not successful_parse and failed_parses < 5:
         try:
-            print("Fetching " + champ_name)
+            print("Fetching " + champ_name, end="... ")
             driver.get(link)
             content = driver.page_source
             print("Parsing " + champ_name)
@@ -49,6 +49,7 @@ while row is not None:
     row.extract() #remove the row from the table to parse the next one
     row = table.tr
 
+driver.quit()
 print("Exporting to csv")
 frame = pd.DataFrame.from_dict(quotes_dict, orient='index')
 frame.to_csv('quotes.csv', encoding='utf-8')
